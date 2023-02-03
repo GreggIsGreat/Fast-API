@@ -29,17 +29,17 @@ def pred_price(data:PriceInfo):
     inpt_val = (open,volume,low,high)
     input_dt = np.asarray(inpt_val)
     reshape_vals = input_dt.reshape(1, -1)
-    prediction = classifier.predict(reshape_vals)
-    if (inpt_val[0] < prediction):
-        prediction = f"Buy!! & TP:{prediction.round(2)}"
+    anticipated = classifier.predict(reshape_vals)
+    if (inpt_val[0] < anticipated):
+        anticipated = f"Buy!! & TP:{anticipated.round(2)}"
     else:
-        prediction = f"Sell!! & TP:{prediction.round(2)}"
-    return {"prediction": prediction}
+        anticipated = f"Sell!! & TP:{anticipated.round(2)}"
+    return {"prediction": anticipated}
     
 @app.get('/prediction')
 def get_cat(open: float, volume: float, low: float, high: float):
-    prediction = classifier.predict([[open, volume, low, high]])
-    return {'prediction': prediction}
+    anticipated = classifier.predict([[open, volume, low, high]])
+    return {'prediction': anticipated}
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)
