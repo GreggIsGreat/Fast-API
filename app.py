@@ -34,11 +34,12 @@ def pred_price(data:PriceInfo):
         prediction = f"Buy!! & TP:{prediction.round(2)}"
     else:
         prediction = f"Sell!! & TP:{prediction.round(2)}"
-    return {
-        "prediction": prediction
-    }
-
+    return {"prediction": prediction}
     
+@app.get('/prediction')
+def get_cat(open: float, volume: float, low: float, high: float):
+    prediction = classifier.predict([[open, volume, low, high]])
+    return {'prediction': prediction}
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)
